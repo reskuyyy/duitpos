@@ -63,3 +63,20 @@ export function resetSemuaData() {
   localStorage.removeItem(KEYS.TRANSAKSI);
   localStorage.removeItem(KEYS.ANGGARAN);
 }
+
+export function exportSemuaData() {
+  return {
+    app: 'DuitPos',
+    exportedAt: new Date().toISOString(),
+    transaksi: getTransaksi(),
+    anggaran: getAnggaran(),
+  };
+}
+
+export function importSemuaData(data) {
+  if (!data || !Array.isArray(data.transaksi) || !Array.isArray(data.anggaran)) {
+    throw new Error('Format file backup tidak valid');
+  }
+  setJSON(KEYS.TRANSAKSI, data.transaksi);
+  setJSON(KEYS.ANGGARAN, data.anggaran);
+}
